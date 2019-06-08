@@ -3,38 +3,66 @@ set -e
 
 CONFIG_PATH=/data/options.json
 
-ALIAS="$(jq --raw-output '.alias' $CONFIG_PATH)"
 SERVER="$(jq --raw-output '.server' $CONFIG_PATH)"
-DOMAIN="$(jq --raw-output '.domain' $CONFIG_PATH)"
+DOMAIN_1="$(jq --raw-output '.domain_1' $CONFIG_PATH)"
+ALIAS_1="$(jq --raw-output '.alias_1' $CONFIG_PATH)"
+IP_OR_HOSTNAME_1="$(jq --raw-output '.ip_or_hostname_1' $CONFIG_PATH)"
 PORT1FROM="$(jq --raw-output '.port1from' $CONFIG_PATH)"
 PORT1TO="$(jq --raw-output '.port1to' $CONFIG_PATH)"
+DOMAIN_2="$(jq --raw-output '.domain_3' $CONFIG_PATH)"
+ALIAS_2="$(jq --raw-output '.alias_2' $CONFIG_PATH)"
+IP_OR_HOSTNAME_2="$(jq --raw-output '.ip_or_hostname_2' $CONFIG_PATH)"
 PORT2FROM="$(jq --raw-output '.port2from' $CONFIG_PATH)"
 PORT2TO="$(jq --raw-output '.port2to' $CONFIG_PATH)"
+DOMAIN_3="$(jq --raw-output '.domain_3' $CONFIG_PATH)"
+ALIAS_3="$(jq --raw-output '.alias_3' $CONFIG_PATH)"
+IP_OR_HOSTNAME_3="$(jq --raw-output '.ip_or_hostname_3' $CONFIG_PATH)"
 PORT3FROM="$(jq --raw-output '.port3from' $CONFIG_PATH)"
 PORT3TO="$(jq --raw-output '.port3to' $CONFIG_PATH)"
 RETRY_TIME="$(jq --raw-output '.retry_time' $CONFIG_PATH)"
 
-if [ "${DOMAIN}" == "" ]
+if [ "${IP_OR_HOSTNAME_1}" == "" ]
 then
-    DOMAIN="${ALIAS}.${SERVER}"
+    IP_OR_HOSTNAME_1="localhost"
 fi
 
-PORT1="-R ${DOMAIN}:${PORT1TO}:localhost:${PORT1FROM}"
-PORT2=""
-PORT3=""
+if [ "${DOMAIN_1}" == "" ]
+then
+    DOMAIN_1="${ALIAS_1}.${SERVER}"
+fi
+
+TUNNEL_1="-R ${DOMAIN_1}:${PORT1TO}:${IP_OR_HOSTNAME_1}:${PORT1FROM}"
+TUNNEL_2=""
+TUNNEL_3=""
 
 
 if [ "${PORT2FROM}" != "0" ] && ["${PORT2TO}" != "0"]
 then
-    PORT2=" -R ${DOMAIN}:${PORT2TO}:localhost:${PORT2FROM}"
+    if [ "${IP_OR_HOSTNAME_2}" == "" ]
+    then
+        IP_OR_HOSTNAME_2="localhost"
+    fi
+    if [ "${DOMAIN_2}" == "" ]
+    then
+        DOMAIN_2="${ALIAS_2}.${SERVER}"
+    fi
+    TUNNEL_2=" -R ${DOMAIN_2}:${PORT2TO}:${IP_OR_HOSTNAME_2}:${PORT2FROM}"
 fi
 
 if [ "${PORT3FROM}" != "0" ] && ["${PORT3TO}" != "0"]
 then
-    PORT3=" -R  ${DOMAIN}:${PORT3TO}:localhost:${PORT3FROM}"
+    if [ "${IP_OR_HOSTNAME_3}" == "" ]
+    then
+        IP_OR_HOSTNAME_3="localhost"
+    fi
+    if [ "${DOMAIN_3}" == "" ]
+    then
+        DOMAIN_3="${ALIAS_3}.${SERVER}"
+    fi
+    TUNNEL_3=" -R  ${DOMAIN_3}:${PORT3TO}:${IP_OR_HOSTNAME_3}:${PORT3FROM}"
 fi
 
-CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${PORT1}${PORT2}${PORT3} ${ALIAS}@${SERVER}'"
+CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${TUNNEL_1}${TUNNEL_2}${TUNNEL_3} ${SERVER}'"
 
 echo "Running '${CMD}' through supervisor!"
 
