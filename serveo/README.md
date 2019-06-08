@@ -45,6 +45,10 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 
 `server` - in case you are using Your own serveo instance, put it's hostname here
 
+`alias_1` - subdomain of your choosing, for example to differentiate access to camera, home-assistant or router, ...
+
+`ip_or_hostname_1` - local IP on your network, for example to access to a camera or manage your router (default localhost)
+
 `port1from` - local hassio port to forward from, default `8123` forwards frontend service
 
 `port1to` - remote serveo port to forward to, default `80` translate to 443 (https) 
@@ -63,10 +67,16 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 {
     "alias": "myfancysubdomain",
     "server": "serveo.net",
+    "alias_1": "myfancysubdomain_1",
+    "ip_or_hostname_1": "localhost",
     "port1from": 8123,
     "port1to": 80,
+    "alias_2": "myfancysubdomain_2",
+    "ip_or_hostname_2": "192.168.8.10",
     "port2from": 0,
     "port2to": 0,
+    "alias_3": "myfancysubdomain_3",
+    "ip_or_hostname_3": "192.168.8.60",
     "port3from": 0,
     "port3to": 0,
     "domain": "",
