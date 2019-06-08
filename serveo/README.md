@@ -55,7 +55,7 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 
 `port2from`/`port2to`, `port3from`/`port3to` - forward more services/addons like configurator etc. 
 
-`domain` - in case You want to use custom domain feature of serveo.net, see their [docs](https://serveo.net)
+`domain_1` - in case You want to use custom domain feature of serveo.net, see their [docs](https://serveo.net)
 
 `retry_time` - seconds to wait before retrying to reconnect to serveo in case of connection error, please be patient sometimes serveo.net can be down or Your provider can have problems with hostname resolution
 
@@ -67,19 +67,21 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 {
     "alias": "myfancysubdomain",
     "server": "serveo.net",
+    "domain_1": "",
     "alias_1": "myfancysubdomain_1",
     "ip_or_hostname_1": "localhost",
     "port1from": 8123,
     "port1to": 80,
+    "domain_2": "",
     "alias_2": "myfancysubdomain_2",
     "ip_or_hostname_2": "192.168.8.10",
     "port2from": 0,
     "port2to": 0,
+    "domain_3": "",
     "alias_3": "myfancysubdomain_3",
     "ip_or_hostname_3": "192.168.8.60",
     "port3from": 0,
     "port3to": 0,
-    "domain": "",
     "retry_time": 15
 }
 ```
