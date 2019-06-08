@@ -25,7 +25,7 @@ You **DO NOT** need to:
 
 ## Quick Install
 
-1. Add `https://github.com/lechup/hassio-addons/` as described [here](https://www.home-assistant.io/hassio/installing_third_party_addons/) in hassio docs.
+1. Add `https://github.com/DevRGT/hassio-addons/` as described [here](https://www.home-assistant.io/hassio/installing_third_party_addons/) in hassio docs.
 2. Fill in alias of Your choosing (be creative!), it will be Your subdomain (use letters + numbers + hyphen).
 3. Start addon.
 4. See if logs shows something like
