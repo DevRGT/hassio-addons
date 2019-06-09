@@ -35,6 +35,7 @@ TUNNEL_1="-R ${DOMAIN_1}:${PORT1TO}:${IP_OR_HOSTNAME_1}:${PORT1FROM}"
 TUNNEL_2=""
 TUNNEL_3=""
 
+echo "Logs for debug '${TUNNEL_1}' "
 
 if [ "${PORT2FROM}" != "0" ] && ["${PORT2TO}" != "0"]
 then
@@ -49,6 +50,8 @@ then
     TUNNEL_2=" -R ${DOMAIN_2}:${PORT2TO}:${IP_OR_HOSTNAME_2}:${PORT2FROM}"
 fi
 
+echo "Logs for debug '${TUNNEL_2}' "
+
 if [ "${PORT3FROM}" != "0" ] && ["${PORT3TO}" != "0"]
 then
     if [ "${IP_OR_HOSTNAME_3}" == "" ]
@@ -61,6 +64,8 @@ then
     fi
     TUNNEL_3=" -R  ${DOMAIN_3}:${PORT3TO}:${IP_OR_HOSTNAME_3}:${PORT3FROM}"
 fi
+
+echo "Logs for debug '${TUNNEL_3}' "
 
 CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${TUNNEL_1}${TUNNEL_2}${TUNNEL_3} ${SERVER}'"
 
