@@ -37,6 +37,7 @@ TUNNEL_3=""
 
 echo "Logs for debug '${TUNNEL_1}' "
 
+
 if [ "${PORT2FROM}" != "0" ] && ["${PORT2TO}" != "0"]
 then
     if [ "${IP_OR_HOSTNAME_2}" == "" ]
@@ -51,6 +52,7 @@ then
 fi
 
 echo "Logs for debug '${TUNNEL_2}' "
+
 
 if [ "${PORT3FROM}" != "0" ] && ["${PORT3TO}" != "0"]
 then
