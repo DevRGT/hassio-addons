@@ -65,7 +65,6 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 
 ```json
 {
-    "alias": "myfancysubdomain",
     "server": "serveo.net",
     "domain_1": "",
     "alias_1": "myfancysubdomain_1",
