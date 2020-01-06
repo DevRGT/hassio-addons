@@ -45,6 +45,8 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 
 `server` - in case you are using Your own serveo instance, put it's hostname here
 
+`private_key` - if you're using your own custom domain, then you need to supply a private key (as per the docs). Paste the literal key in here (string in form of: "-----BEGIN RSA PRIVATE KEY-----\nXXXXXXXXXXXXX\nXXXXXXXXXXXXX\n-----END RSA PRIVATE KEY-----"), and the file will be generated at runtime.
+
 `alias_1` - subdomain of your choosing, for example to differentiate access to camera, home-assistant or router, ...
 
 `ip_or_hostname_1` - local IP on your network, for example to access to a camera or manage your router (default localhost)
@@ -66,6 +68,7 @@ Forwarding HTTP traffic from https://myfancyalias.serveo.net
 ```json
 {
     "server": "serveo.net",
+    "private_key": "",
     "domain_1": "",
     "alias_1": "myfancysubdomain_1",
     "ip_or_hostname_1": "localhost",
