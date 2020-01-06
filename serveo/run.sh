@@ -4,6 +4,7 @@ set -e
 CONFIG_PATH=/data/options.json
 
 SERVER="$(jq --raw-output '.server' $CONFIG_PATH)"
+PRIVATE_KEY="$(jq --raw-output '.private_key' ${CONFIG_PATH})"
 DOMAIN_1="$(jq --raw-output '.domain_1' $CONFIG_PATH)"
 ALIAS_1="$(jq --raw-output '.alias_1' $CONFIG_PATH)"
 IP_OR_HOSTNAME_1="$(jq --raw-output '.ip_or_hostname_1' $CONFIG_PATH)"
@@ -69,7 +70,15 @@ fi
 
 echo "Logs for debug '${TUNNEL_3}' "
 
-CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${TUNNEL_1}${TUNNEL_2}${TUNNEL_3} ${SERVER}'"
+IDENTITY=""
+if [[ "${PRIVATE_KEY}" != "" ]]
+then
+    echo "${PRIVATE_KEY}" >> /private_key
+    chmod 600 /private_key
+    IDENTITY="-i /private_key"
+fi
+
+CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh ${IDENTITY} -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${TUNNEL_1}${TUNNEL_2}${TUNNEL_3} ${SERVER}'"
 
 echo "Running '${CMD}' through supervisor!"
 
