@@ -5,6 +5,7 @@ CONFIG_PATH=/data/options.json
 
 SERVER="$(jq --raw-output '.server' $CONFIG_PATH)"
 PRIVATE_KEY="$(jq --raw-output '.private_key' ${CONFIG_PATH})"
+SSH_PORT="$(jq --raw-output '.ssh_port' ${CONFIG_PATH})"
 DOMAIN_1="$(jq --raw-output '.domain_1' $CONFIG_PATH)"
 ALIAS_1="$(jq --raw-output '.alias_1' $CONFIG_PATH)"
 IP_OR_HOSTNAME_1="$(jq --raw-output '.ip_or_hostname_1' $CONFIG_PATH)"
@@ -78,7 +79,13 @@ then
     IDENTITY="-i /private_key"
 fi
 
-CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh ${IDENTITY} -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${TUNNEL_1}${TUNNEL_2}${TUNNEL_3} ${SERVER}'"
+SSH_PORT_PARAM=""
+if [ "${SSH_PORT}" != "0" ]
+then
+    SSH_PORT_PARAM=" -p ${SSH_PORT}"
+fi
+
+CMD="/bin/bash -c 'sleep ${RETRY_TIME} && ssh ${IDENTITY} -tt -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${TUNNEL_1}${TUNNEL_2}${TUNNEL_3} ${SERVER}${SSH_PORT_PARAM}'"
 
 echo "Running '${CMD}' through supervisor!"
 
